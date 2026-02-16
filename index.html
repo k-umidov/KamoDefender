@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="KamoDefender - Профессиональная платформа для проверки безопасности паролей, URL и файлов">
+    <meta name="keywords" content="кибербезопасность, проверка паролей, фишинг, сканер вирусов, безопасность">
+    <title>KamoDefender | Центр Кибербезопасности</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="logo">
+                <span class="shield-icon">🛡️</span>KamoDefender
+            </h1>
+            <p class="tagline">[ Защита Нового Поколения ]</p>
+            <a href="presentation.html" class="cyber-btn"
+                style="display: inline-block; margin-top: 1.5rem; text-decoration: none; font-size: 0.9rem;">
+                📊 Презентация Проекта
+            </a>
+        </header>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="password">
+                🔐 Проверка Пароля
+            </button>
+            <button class="tab-btn" data-tab="url">
+                🔗 Сканер URL
+            </button>
+            <button class="tab-btn" data-tab="file">
+                📁 Анализ Файлов
+            </button>
+            <button class="tab-btn" data-tab="support">
+                💬 Техподдержка
+            </button>
+        </div>
+
+        <!-- Password Checker Module -->
+        <div id="password-tab" class="tab-content active">
+            <div class="module-card">
+                <h2 class="module-title">🔐 Password Security Analyzer</h2>
+                <p class="module-description">
+                    Проверьте надежность вашего пароля и узнайте, был ли он скомпрометирован в известных утечках данных.
+                </p>
+
+                <div class="input-group">
+                    <label class="input-label">Введите пароль для анализа:</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="password-input" class="cyber-input" placeholder="••••••••••••">
+                        <button class="toggle-password" onclick="togglePasswordVisibility()" type="button">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="cyber-btn" onclick="checkPassword()">
+                        Анализировать
+                    </button>
+                    <button class="cyber-btn-secondary" onclick="generatePassword()">
+                        🎲 Сгенерировать Надежный Пароль
+                    </button>
+                </div>
+
+                <!-- Generated Password -->
+                <div id="generated-password-container" class="generated-password-container" style="display: none;">
+                    <div class="generated-password-header">
+                        <span class="result-label">✨ Сгенерированный Надежный Пароль:</span>
+                    </div>
+                    <div class="generated-password-value">
+                        <code id="generated-password"></code>
+                        <button class="copy-btn" onclick="copyPassword()" title="Копировать">
+                            📋
+                        </button>
+                    </div>
+                    <div class="password-hint">
+                        💡 Сохраните этот пароль в надежном месте (менеджер паролей)
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div id="password-results" class="results-container">
+                    <div class="result-item">
+                        <div class="result-label">Статус безопасности:</div>
+                        <div class="result-value" id="password-status"></div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Оценка надежности:</div>
+                        <div class="result-value" id="password-score"></div>
+                        <div class="strength-meter">
+                            <div class="strength-bar" id="strength-bar"></div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Энтропия:</div>
+                        <div class="result-value" id="password-entropy"></div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Рекомендации:</div>
+                        <div class="result-value" id="password-recommendations"></div>
+                    </div>
+                </div>
+
+                <!-- Terminal Log -->
+                <div id="password-terminal" class="terminal-log"></div>
+            </div>
+        </div>
+
+        <!-- URL Scanner Module -->
+        <div id="url-tab" class="tab-content">
+            <div class="module-card">
+                <h2 class="module-title">🔗 URL Phishing Detector</h2>
+                <p class="module-description">
+                    Проверьте подозрительные ссылки на признаки фишинга и вредоносного содержимого перед переходом.
+                </p>
+
+                <div class="input-group">
+                    <label class="input-label">Введите URL для проверки:</label>
+                    <input type="text" id="url-input" class="cyber-input" placeholder="https://example.com">
+                </div>
+
+                <button class="cyber-btn" onclick="checkURL()">
+                    Сканировать
+                </button>
+
+                <!-- Results -->
+                <div id="url-results" class="results-container">
+                    <div class="result-item">
+                        <div class="result-label">Статус безопасности:</div>
+                        <div class="result-value" id="url-status"></div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Доменное имя:</div>
+                        <div class="result-value" id="url-domain"></div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Обнаруженные угрозы:</div>
+                        <div class="result-value" id="url-threats"></div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Рекомендация:</div>
+                        <div class="result-value" id="url-recommendation"></div>
+                    </div>
+                </div>
+
+                <!-- Terminal Log -->
+                <div id="url-terminal" class="terminal-log"></div>
+            </div>
+        </div>
+
+        <!-- File Analyzer Module -->
+        <div id="file-tab" class="tab-content">
+            <div class="module-card">
+                <h2 class="module-title">📁 File Security Scanner</h2>
+                <p class="module-description">
+                    Загрузите файл для проверки на вредоносное содержимое и подозрительные характеристики.
+                </p>
+
+                <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+                    <div class="upload-icon">📤</div>
+                    <div class="upload-text">
+                        Нажмите или перетащите файл сюда
+                    </div>
+                    <input type="file" id="file-input" class="file-input" onchange="handleFileSelect(event)">
+                </div>
+
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <button class="cyber-btn" id="scan-file-btn" onclick="scanFile()" style="display: none;">
+                        Сканировать Файл
+                    </button>
+                </div>
+
+                <!-- Results -->
+                <div id="file-results" class="results-container">
+                    <div class="result-item">
+                        <div class="result-label">Имя файла:</div>
+                        <div class="result-value" id="file-name"></div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Размер:</div>
+                        <div class="result-value" id="file-size"></div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Тип:</div>
+                        <div class="result-value" id="file-type"></div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Статус безопасности:</div>
+                        <div class="result-value" id="file-status"></div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Обнаруженные проблемы:</div>
+                        <div class="result-value" id="file-issues"></div>
+                    </div>
+                </div>
+
+                <!-- Terminal Log -->
+                <div id="file-terminal" class="terminal-log"></div>
+            </div>
+        </div>
+
+        <!-- Support Module -->
+        <div id="support-tab" class="tab-content">
+            <div class="module-card">
+                <h2 class="module-title">💬 Техподдержка</h2>
+                <p class="module-description">
+                    Свяжитесь с разработчиком для помощи, предложений или сообщений об ошибках.
+                </p>
+
+                <div class="support-grid">
+                    <!-- Developer Info -->
+                    <div class="support-card">
+                        <div class="support-icon">👨‍💻</div>
+                        <h3 class="support-title">Разработчик</h3>
+                        <p class="support-text">
+                            Проект создан для улучшения осведомленности о кибербезопасности
+                        </p>
+                    </div>
+
+                    <!-- Telegram Contact -->
+                    <div class="support-card">
+                        <div class="support-icon">✈️</div>
+                        <h3 class="support-title">Telegram</h3>
+                        <a href="https://t.me/um1dov7" target="_blank" class="contact-link">
+                            @um1dov7
+                        </a>
+                        <p class="support-text-small">Нажмите для связи</p>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="support-card">
+                        <div class="support-icon">📧</div>
+                        <h3 class="support-title">Email</h3>
+                        <a href="mailto:umidovkamoliddin2006@gmail.com" class="contact-link" style="font-size: 12px;">
+                            umidovkamoliddin2006@gmail.com
+                        </a>
+                        <p class="support-text-small">Для связи и сотрудничества</p>
+                    </div>
+
+                    <!-- Instagram -->
+                    <div class="support-card">
+                        <div class="support-icon">📸</div>
+                        <h3 class="support-title">Instagram</h3>
+                        <a href="https://instagram.com/_um1dov" target="_blank" class="contact-link">
+                            @_um1dov
+                        </a>
+                        <p class="support-text-small">Подписывайтесь на обновления</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="faq-section">
+                    <h3 class="faq-title">❓ Часто задаваемые вопросы</h3>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Как работает проверка паролей?</div>
+                        <div class="faq-answer">
+                            Мы используем алгоритм оценки энтропии и проверяем соответствие лучшим практикам
+                            безопасности. Пароли не сохраняются и не передаются на сервер.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Безопасно ли вводить мой реальный пароль?</div>
+                        <div class="faq-answer">
+                            Вся проверка происходит локально в вашем браузере. Данные не отправляются на серверы. Однако
+                            рекомендуем использовать тестовые пароли.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Какие файлы можно проверять?</div>
+                        <div class="faq-answer">
+                            Система проверяет метаданные файла: расширение, размер, имя. Для полного антивирусного
+                            сканирования используйте VirusTotal или профессиональные решения.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Это бесплатно?</div>
+                        <div class="faq-answer">
+                            Да! KamoDefender полностью бесплатен и создан в образовательных целях.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="support-footer">
+                    <p>🛡️ <strong>KamoDefender</strong> — Защита Нового Поколения</p>
+                    <p class="version">Version 1.0.0 | © 2026</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
+```

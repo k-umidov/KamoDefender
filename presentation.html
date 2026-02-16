@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KamoDefender - Презентация Проекта</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Presentation Specific Styles */
+        .presentation-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .slide {
+            display: none;
+            animation: slideIn 0.6s ease;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-title {
+            font-family: var(--font-header);
+            font-size: 3.5rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .slide-content {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .slide-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight {
+            color: var(--cyber-blue);
+            font-weight: 700;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .problem-card {
+            background: rgba(255, 56, 100, 0.1);
+            border: 2px solid var(--cyber-red);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--glow-red);
+        }
+
+        .problem-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-title {
+            font-family: var(--font-header);
+            font-size: 1.5rem;
+            color: var(--cyber-red);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .solution-card {
+            background: rgba(0, 255, 159, 0.1);
+            border: 2px solid var(--cyber-green);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--glow-green);
+        }
+
+        .solution-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .solution-title {
+            font-family: var(--font-header);
+            font-size: 1.5rem;
+            color: var(--cyber-green);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2rem;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            font-family: var(--font-header);
+            padding: 1rem 2rem;
+            background: rgba(0, 243, 255, 0.2);
+            border: 2px solid var(--cyber-blue);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 243, 255, 0.4);
+            box-shadow: var(--glow-blue);
+            transform: translateY(-3px);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            color: var(--cyber-blue);
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(176, 38, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(176, 38, 255, 0.3);
+        }
+
+        .stat-number {
+            font-family: var(--font-header);
+            font-size: 3rem;
+            color: var(--cyber-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 2rem;
+        }
+
+        .feature-list li {
+            font-size: 1.2rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: rgba(0, 243, 255, 0.05);
+            border-left: 4px solid var(--cyber-blue);
+            border-radius: 5px;
+        }
+
+        .feature-list li::before {
+            content: '• ';
+            color: var(--cyber-green);
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .home-link {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            padding: 1rem 2rem;
+            background: rgba(176, 38, 255, 0.2);
+            border: 2px solid var(--cyber-purple);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-family: var(--font-header);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .home-link:hover {
+            background: rgba(176, 38, 255, 0.4);
+            box-shadow: var(--glow-purple);
+            transform: translateY(-3px);
+        }
+
+        .code-example {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--cyber-green);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            font-family: var(--font-mono);
+            color: var(--cyber-green);
+            overflow-x: auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            background: rgba(0, 243, 255, 0.1);
+            border: 2px solid var(--cyber-blue);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            background: rgba(0, 243, 255, 0.2);
+            box-shadow: var(--glow-blue);
+            transform: scale(1.05);
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-title {
+            font-family: var(--font-header);
+            font-size: 1.3rem;
+            color: var(--cyber-blue);
+            margin-bottom: 1rem;
+        }
+
+        .contact-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 2rem;
+            }
+
+            .slide-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .slide-text {
+                font-size: 1.1rem;
+            }
+
+            .navigation {
+                bottom: 1rem;
+                gap: 1rem;
+            }
+
+            .nav-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="index.html" class="home-link">Главная</a>
+    <div class="slide-counter" id="slide-counter">1 / 10</div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active" id="slide-1">
+            <h1 class="slide-title">CyberGuard Quantum</h1>
+            <div class="slide-content">
+                <p class="slide-text" style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">
+                    <span class="highlight">Защита Нового Поколения</span>
+                </p>
+                <p class="slide-text" style="text-align: center;">
+                    Комплексная платформа для анализа безопасности в цифровом мире
+                </p>
+                <p class="slide-text" style="text-align: center; font-size: 1rem; margin-top: 3rem;">
+                    Разработчик: <span class="highlight">Umidov Kamoliddin</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Проблема кибератак -->
+        <div class="slide" id="slide-2">
+            <h2 class="slide-title">Киберугрозы Современности</h2>
+            <div class="slide-content">
+                <p class="slide-text">
+                    В 2025 году киберпреступность достигла критического уровня. Каждые <span class="highlight">39
+                        секунд</span>
+                    происходит хакерская атака где-то в мире.
+                </p>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">4.7М</div>
+                        <div class="stat-label">утечек данных ежегодно</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">81%</div>
+                        <div class="stat-label">из-за слабых паролей</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">$6 трлн</div>
+                        <div class="stat-label">глобальный ущерб</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">90%</div>
+                        <div class="stat-label">успешных фишинговых атак</div>
+                    </div>
+                </div>
+
+                <p class="slide-text" style="margin-top: 2rem;">
+                    Обычные пользователи становятся легкой мишенью из-за отсутствия инструментов для самопроверки
+                    безопасности.
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Три главные проблемы -->
+        <div class="slide" id="slide-3">
+            <h2 class="slide-title">Три Критические Проблемы</h2>
+            <div class="slide-content">
+                <div class="problem-grid">
+                    <div class="problem-card">
+                        <div class="problem-icon"></div>
+                        <h3 class="problem-title">Слабые Пароли</h3>
+                        <p class="slide-text" style="font-size: 1.1rem;">
+                            "123456", "password", "qwerty" — топ-3 самых популярных пароля в мире.
+                            Взломать их можно за <span class="highlight">секунды</span>.
+                        </p>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-icon"></div>
+                        <h3 class="problem-title">Фишинговые URL</h3>
+                        <p class="slide-text" style="font-size: 1.1rem;">
+                            Поддельные сайты копируют известные бренды.
+                            Пользователь вводит данные на "g00gle.com" вместо "google.com".
+                        </p>
+                    </div>
+
+                    <div class="problem-card">
+                        <div class="problem-icon"></div>
+                        <h3 class="problem-title">Вредоносные Файлы</h3>
+                        <p class="slide-text" style="font-size: 1.1rem;">
+                            "document.pdf.exe" — вирус маскируется под PDF.
+                            Один клик = заражение всей системы.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Решение - KamoDefender -->
+        <div class="slide" id="slide-4">
+            <h2 class="slide-title">Решение: KamoDefender</h2>
+            <div class="slide-content">
+                <p class="slide-text">
+                    <span class="highlight">KamoDefender</span> — это бесплатная веб-платформа, которая дает каждому
+                    возможность проверить свою безопасность перед угрозами.
+                </p>
+
+                <div class="solution-grid">
+                    <div class="solution-card">
+                        <div class="solution-icon"></div>
+                        <h3 class="solution-title">Password Analyzer</h3>
+                        <p class="slide-text" style="font-size: 1.1rem;">
+                            Проверка надежности пароля по 5 критериям + расчет энтропии
+                        </p>
+                    </div>
+
+                    <div class="solution-card">
+                        <div class="solution-icon"></div>
+                        <h3 class="solution-title">URL Scanner</h3>
+                        <p class="slide-text" style="font-size: 1.1rem;">
+                            Детекция фишинговых сайтов по 6 признакам подозрительности
+                        </p>
+                    </div>
+
+                    <div class="solution-card">
+                        <div class="solution-icon"></div>
+                        <h3 class="solution-title">File Checker</h3>
+                        <p class="slide-text" style="font-size: 1.1rem;">
+                            Анализ файлов на вредоносные расширения и маскировку
+                        </p>
+                    </div>
+                </div>
+
+                <ul class="feature-list">
+                    <li>100% локальная обработка — данные не покидают ваш браузер</li>
+                    <li>Мгновенный результат с визуализацией угроз</li>
+                    <li>Генератор надежных паролей (104+ бит энтропии)</li>
+                    <li>Терминал-лог в реальном времени для прозрачности</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 5: Как работает проверка пароля -->
+        <div class="slide" id="slide-5">
+            <h2 class="slide-title">Как Работает Проверка Пароля</h2>
+            <div class="slide-content">
+                <p class="slide-text">
+                    <span class="highlight">Password Security Analyzer</span> использует научный подход к оценке
+                    надежности:
+                </p>
+
+                <h3 style="color: var(--cyber-blue); font-family: var(--font-header); margin: 2rem 0 1rem;">
+                    1. Система Баллов (0-100)
+                </h3>
+                <ul class="feature-list">
+                    <li>Длина ≥ 12 символов → +25 баллов</li>
+                    <li>Заглавные буквы (A-Z) → +20 баллов</li>
+                    <li>Строчные буквы (a-z) → +20 баллов</li>
+                    <li>Цифры (0-9) → +20 баллов</li>
+                    <li>Спецсимволы (!@#$%^&*) → +15 баллов</li>
+                </ul>
+
+                <h3 style="color: var(--cyber-blue); font-family: var(--font-header); margin: 2rem 0 1rem;">
+                    2. Расчет Энтропии (Криптографическая стойкость)
+                </h3>
+                <div class="code-example">
+                    Энтропия = длина × log₂(размер_алфавита)
+
+                    Пример:
+                    "hello" (5 символов, a-z) → 23.5 бит СЛАБЫЙ
+                    "He11o!W0r1d" (11 символов, все типы) → 72 бит СИЛЬНЫЙ
+                </div>
+
+                <p class="slide-text" style="margin-top: 2rem;">
+                    <span class="highlight">Чем выше энтропия</span> → тем дольше компьютер подбирает пароль перебором.
+                    Пароль с 72 битами энтропии = <span class="highlight">миллиарды лет</span> на взлом!
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Проверка URL -->
+        <div class="slide" id="slide-6">
+            <h2 class="slide-title">URL Phishing Detector</h2>
+            <div class="slide-content">
+                <p class="slide-text">
+                    Система анализирует ссылки по <span class="highlight">6 признакам фишинга:</span>
+                </p>
+
+                <ul class="feature-list">
+                    <li><strong>HTTP вместо HTTPS</strong> — отсутствие шифрования</li>
+                    <li><strong>Подозрительные слова</strong> — "secure", "verify", "login" в домене</li>
+                    <li><strong>IP-адрес вместо домена</strong> — http://192.168.1.1/paypal</li>
+                    <li><strong>Слишком много поддоменов</strong> — verify.account.secure.paypal.fake.com</li>
+                    <li><strong>Бесплатные домены</strong> — .tk, .ml, .ga (любимые у мошенников)</li>
+                    <li><strong>Typosquatting</strong> — g00gle.com вместо google.com</li>
+                </ul>
+
+                <div
+                    style="background: rgba(255, 56, 100, 0.1); border: 2px solid var(--cyber-red); padding: 2rem; border-radius: 15px; margin-top: 2rem;">
+                    <p
+                        style="font-family: var(--font-header); color: var(--cyber-red); font-size: 1.3rem; margin-bottom: 1rem;">
+                        Пример фишинга:
+                    </p>
+                    <code style="font-size: 1.2rem; color: var(--text-primary);">
+                        http://secure-g00gle-login.tk/verify-account
+                    </code>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">
+                        HTTP • Подозрительный домен • Бесплатная зона .tk • Подделка "google"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Проверка файлов -->
+        <div class="slide" id="slide-7">
+            <h2 class="slide-title">File Security Scanner</h2>
+            <div class="slide-content">
+                <p class="slide-text">
+                    Анализ файлов на <span class="highlight">4 критерия опасности:</span>
+                </p>
+
+                <ul class="feature-list">
+                    <li><strong>Опасные расширения</strong> — .exe, .bat, .scr, .vbs, .dll</li>
+                    <li><strong>Двойное расширение (маскировка!)</strong> — document.pdf.exe</li>
+                    <li><strong>Подозрительные имена</strong> — crack, keygen, virus, hack</li>
+                    <li><strong>Странный размер</strong> — program.exe размером 500 байт</li>
+                </ul>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+                    <div
+                        style="background: rgba(0, 255, 159, 0.1); border: 2px solid var(--cyber-green); padding: 2rem; border-radius: 15px;">
+                        <p
+                            style="font-family: var(--font-header); color: var(--cyber-green); font-size: 1.3rem; margin-bottom: 1rem;">
+                            Безопасно:
+                        </p>
+                        <code style="display: block; margin-bottom: 0.5rem;">report.pdf</code>
+                        <code style="display: block; margin-bottom: 0.5rem;">photo.jpg</code>
+                        <code style="display: block;">document.docx</code>
+                    </div>
+
+                    <div
+                        style="background: rgba(255, 56, 100, 0.1); border: 2px solid var(--cyber-red); padding: 2rem; border-radius: 15px;">
+                        <p
+                            style="font-family: var(--font-header); color: var(--cyber-red); font-size: 1.3rem; margin-bottom: 1rem;">
+                            Опасно:
+                        </p>
+                        <code style="display: block; margin-bottom: 0.5rem;">document.pdf.exe</code>
+                        <code style="display: block; margin-bottom: 0.5rem;">crack-adobe.bat</code>
+                        <code style="display: block;">virus.scr</code>
+                    </div>
+                </div>
+
+                <p class="slide-text" style="margin-top: 2rem;">
+                    <strong>Важно:</strong> Для полной антивирусной проверки рекомендуется использовать
+                    VirusTotal или профессиональные решения. KamoDefender — первая линия обороны!
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Технологии -->
+        <div class="slide" id="slide-8">
+            <h2 class="slide-title">Технологии Разработки</h2>
+            <div class="slide-content">
+                <p class="slide-text">
+                    <span class="highlight">KamoDefender</span> построен на современном технологическом стеке:
+                </p>
+
+                <h3 style="color: var(--cyber-blue); font-family: var(--font-header); margin: 2rem 0 1rem;">
+                    Frontend
+                </h3>
+                <ul class="feature-list">
+                    <li><strong>HTML5</strong> — Семантическая разметка и структура приложения</li>
+                    <li><strong>CSS3</strong> — Кастомный дизайн с градиентами, анимациями и респонсивностью</li>
+                    <li><strong>JavaScript (ES6+)</strong> — Логика безопасности и интерактивность</li>
+                </ul>
+
+                <h3 style="color: var(--cyber-green); font-family: var(--font-header); margin: 2rem 0 1rem;">
+                    Алгоритмы Безопасности
+                </h3>
+                <ul class="feature-list">
+                    <li><strong>Энтропийный анализ паролей</strong> — Математическая оценка криптостойкости</li>
+                    <li><strong>Регулярные выражения</strong> — Паттерн-матчинг для определения угроз</li>
+                    <li><strong>Эвристический анализ</strong> — Обнаружение фишинга и вредоносов</li>
+                </ul>
+
+                <h3 style="color: var(--cyber-purple); font-family: var(--font-header); margin: 2rem 0 1rem;">
+                    Инструменты
+                </h3>
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div
+                        style="background: rgba(0, 243, 255, 0.1); border: 1px solid var(--cyber-blue); padding: 1rem; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;"></div>
+                        <div style="color: var(--text-primary);">Local-first Processing</div>
+                    </div>
+                    <div
+                        style="background: rgba(0, 255, 159, 0.1); border: 1px solid var(--cyber-green); padding: 1rem; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;"></div>
+                        <div style="color: var(--text-primary);">Zero Dependencies</div>
+                    </div>
+                    <div
+                        style="background: rgba(176, 38, 255, 0.1); border: 1px solid var(--cyber-purple); padding: 1rem; border-radius: 10px; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;"></div>
+                        <div style="color: var(--text-primary);">Privacy-First Design</div>
+                    </div>
+                </div>
+
+                <p class="slide-text" style="margin-top: 2rem; text-align: center;">
+                    <strong>100% клиентское приложение</strong> — все вычисления происходят в браузере,<br>
+                    данные пользователя никогда не покидают устройство!
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Техподдержка и контакты -->
+        <div class="slide" id="slide-9">
+            <h2 class="slide-title">Техподдержка</h2>
+            <div class="slide-content">
+                <p class="slide-text" style="text-align: center;">
+                    Свяжитесь с разработчиком для вопросов, предложений или сотрудничества
+                </p>
+
+                <div class="contact-grid">
+                    <div class="contact-card">
+                        <div class="contact-icon"></div>
+                        <h3 class="contact-title">Telegram</h3>
+                        <a href="https://t.me/um1dov7" target="_blank" class="contact-link">@um1dov7</a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon"></div>
+                        <h3 class="contact-title">Email</h3>
+                        <a href="mailto:umidovkamoliddin2006@gmail.com" class="contact-link"
+                            style="font-size: 0.95rem;">
+                            umidovkamoliddin2006@gmail.com
+                        </a>
+                    </div>
+
+                    <div class="contact-card">
+                        <div class="contact-icon"></div>
+                        <h3 class="contact-title">Instagram</h3>
+                        <a href="https://instagram.com/_um1dov" target="_blank" class="contact-link">@_um1dov</a>
+                    </div>
+                </div>
+
+                <p class="slide-text" style="text-align: center; margin-top: 2rem; font-size: 1.3rem;">
+                    <span class="highlight">Спасибо за внимание!</span>
+                </p>
+                <p class="slide-text" style="text-align: center; margin-top: 1rem;">
+                    Оставайтесь в безопасности в цифровом мире
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 10: Открыть Приложение -->
+        <div class="slide" id="slide-10">
+            <h2 class="slide-title">Запустить Приложение</h2>
+            <div class="slide-content">
+                <div style="text-align: center; padding: 4rem 2rem;">
+                    <p style="font-size: 2.5rem; margin-bottom: 1rem;">
+                        <span class="highlight">CyberGuard Quantum</span>
+                    </p>
+                    <p style="font-size: 1.5rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+                        Защита Нового Поколения
+                    </p>
+                    <p
+                        style="margin-top: 1rem; font-family: var(--font-mono); color: var(--text-secondary); font-size: 1.1rem;">
+                        Version 1.0.0 | © 2026
+                    </p>
+
+                    <div style="margin-top: 4rem;">
+                        <a href="index.html" class="cyber-btn" style="display: inline-block; padding: 2rem 4rem; font-size: 1.8rem; text-decoration: none; 
+                                  background: linear-gradient(135deg, var(--cyber-blue), var(--cyber-purple)); 
+                                  border: 2px solid var(--cyber-blue); border-radius: 15px; 
+                                  box-shadow: 0 0 30px rgba(0, 243, 255, 0.5); transition: all 0.3s ease;">
+                            Открыть Приложение
+                        </a>
+                    </div>
+
+                    <p style="margin-top: 3rem; font-size: 1.2rem; color: var(--text-secondary);">
+                        Начните защищать свою цифровую безопасность прямо сейчас!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()">Назад</button>
+        <button class="nav-btn" onclick="nextSlide()">Вперед</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 10;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+
+            if (n > totalSlides) {
+                currentSlide = 1;
+            }
+            if (n < 1) {
+                currentSlide = totalSlides;
+            }
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+
+            document.getElementById('slide-counter').textContent = `${currentSlide} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Initialize
+        showSlide(currentSlide);
+    </script>
+</body>
+
+</html>
